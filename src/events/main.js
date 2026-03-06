@@ -3,7 +3,9 @@ import { collectMaleNamesFromGenerator, inflectObjectByAction, injectName, pickR
 
 const state = {
   namesPool: [],
-  currentObjectIndexes: []
+  currentObjectIndexes: [],
+  lastRenderedFaceText: '',
+  lastRenderedSignature: ''
 };
 
 const $ = (id) => document.getElementById(id);
@@ -94,6 +96,10 @@ function rollD20(){
   return Math.floor(Math.random() * 20) + 1;
 }
 
+function buildEventSignature(){
+  return `${datasetSelect.value}:${faceSelect.value}:${actionSelect.value}:${objectSelect.value}`;
+}
+
 function resolveDecision(decisionKey){
   const decision = DECISIONS[decisionKey];
   const ds = getCurrentDataset();
@@ -106,7 +112,10 @@ function resolveDecision(decisionKey){
     return;
   }
 
-  const renderedFace = injectName(face.text, state.namesPool, face.nameCase);
+  const currentSignature = buildEventSignature();
+  const renderedFace = currentSignature === state.lastRenderedSignature
+    ? state.lastRenderedFaceText
+    : injectName(face.text, state.namesPool, face.nameCase);
   const reactionForm = getReactionForm(action, face);
   const roll = rollD20();
   const modifiedRoll = Math.min(20, Math.max(1, roll + decision.modifier));
@@ -141,6 +150,9 @@ function renderEvent(){
   const actionForm = getActionForm(action, face.gender);
   const eventObjectText = inflectObjectByAction(actionForm, object.text);
   const eventText = `${renderedFace} ${actionForm} ${eventObjectText}.`;
+
+  state.lastRenderedFaceText = renderedFace;
+  state.lastRenderedSignature = buildEventSignature();
 
   eventBox.textContent = eventText;
   tagDataset.textContent = `Набор: ${ds.title}`;
