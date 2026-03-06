@@ -1,5 +1,5 @@
 import { DATASETS, GENDER_LABELS } from './eventData.js';
-import { collectMaleNamesFromGenerator, injectName, pickRandom } from './grammar.js';
+import { collectMaleNamesFromGenerator, inflectObjectByAction, injectName, pickRandom } from './grammar.js';
 
 const state = {
   namesPool: [],
@@ -119,7 +119,8 @@ function resolveDecision(decisionKey){
     return;
   }
 
-  resultBox.textContent = `Вы выбрали «${decision.label}». Бросок: ${roll} (${decision.modifier >= 0 ? '+' : ''}${decision.modifier}) = ${modifiedRoll}. ${renderedFace} ${reactionForm} ${object.text}.`;
+  const reactionObjectText = inflectObjectByAction(reactionForm, object.text);
+  resultBox.textContent = `Вы выбрали «${decision.label}». Бросок: ${roll} (${decision.modifier >= 0 ? '+' : ''}${decision.modifier}) = ${modifiedRoll}. ${renderedFace} ${reactionForm} ${reactionObjectText}.`;
 }
 
 function renderEvent(){
@@ -135,7 +136,8 @@ function renderEvent(){
 
   const renderedFace = injectName(face.text, state.namesPool, face.nameCase);
   const actionForm = getActionForm(action, face.gender);
-  const eventText = `${renderedFace} ${actionForm} ${object.text}.`;
+  const eventObjectText = inflectObjectByAction(actionForm, object.text);
+  const eventText = `${renderedFace} ${actionForm} ${eventObjectText}.`;
 
   eventBox.textContent = eventText;
   tagDataset.textContent = `Набор: ${ds.title}`;
