@@ -20,6 +20,12 @@ const tagObjects = $('tagObjects');
 const catalog = $('catalog');
 const namesStatus = $('namesStatus');
 const namesFile = $('namesFile');
+const resultBox = $('resultBox');
+
+const DECISIONS = {
+  intervene: { label: 'вмешаться', modifier: 2 },
+  ignore: { label: 'проигнорировать', modifier: -2 }
+};
 
 function setNamesStatus(text){
   namesStatus.textContent = text;
@@ -77,6 +83,45 @@ function getActionForm(action, gender){
   return action.forms[gender] || action.forms.m;
 }
 
+function getReactionForm(action, gender){
+  return action.reactionForms?.[gender] || action.reactionForms?.m;
+}
+
+function rollD20(){
+  return Math.floor(Math.random() * 20) + 1;
+}
+
+function resolveDecision(decisionKey){
+  const decision = DECISIONS[decisionKey];
+  const ds = getCurrentDataset();
+  const face = getCurrentFace();
+  const action = getCurrentAction();
+  const object = ds.objects[Number(objectSelect.value)];
+
+  if (!decision || !object) {
+    resultBox.textContent = 'Сначала выберите корректное событие.';
+    return;
+  }
+
+  const renderedFace = injectName(face.text, state.namesPool, face.nameCase);
+  const reactionForm = getReactionForm(action, face.gender);
+  const roll = rollD20();
+  const modifiedRoll = Math.min(20, Math.max(1, roll + decision.modifier));
+  const isWin = modifiedRoll >= 11;
+
+  if (!isWin) {
+    resultBox.textContent = `Вы выбрали «${decision.label}». Бросок: ${roll} (${decision.modifier >= 0 ? '+' : ''}${decision.modifier}) = ${modifiedRoll}. Основатели не на вашей стороне...`;
+    return;
+  }
+
+  if (!reactionForm) {
+    resultBox.textContent = 'Для выбранного действия не задана реакция.';
+    return;
+  }
+
+  resultBox.textContent = `Вы выбрали «${decision.label}». Бросок: ${roll} (${decision.modifier >= 0 ? '+' : ''}${decision.modifier}) = ${modifiedRoll}. ${renderedFace} ${reactionForm} ${object.text}.`;
+}
+
 function renderEvent(){
   const ds = getCurrentDataset();
   const face = getCurrentFace();
@@ -107,6 +152,7 @@ function randomizeAll(){
   const pick = pickRandom(state.currentObjectIndexes);
   objectSelect.value = String(pick);
   renderEvent();
+  resultBox.textContent = 'После выбора действия здесь появится исход.';
 }
 
 function randomizeParts(){
@@ -116,6 +162,7 @@ function randomizeParts(){
   refreshObjectSelect(false);
   if (Math.random() > 0.1) objectSelect.value = String(pickRandom(state.currentObjectIndexes));
   renderEvent();
+  resultBox.textContent = 'После выбора действия здесь появится исход.';
 }
 
 async function copyEvent(){
@@ -207,12 +254,18 @@ function init(){
   actionSelect.addEventListener('change', () => {
     refreshObjectSelect(false);
     renderEvent();
+    resultBox.textContent = 'После выбора действия здесь появится исход.';
   });
-  objectSelect.addEventListener('change', renderEvent);
+  objectSelect.addEventListener('change', () => {
+    renderEvent();
+    resultBox.textContent = 'После выбора действия здесь появится исход.';
+  });
 
   $('randomAll').addEventListener('click', randomizeAll);
   $('randomParts').addEventListener('click', randomizeParts);
   $('copyEvent').addEventListener('click', copyEvent);
+  $('interveneBtn').addEventListener('click', () => resolveDecision('intervene'));
+  $('ignoreBtn').addEventListener('click', () => resolveDecision('ignore'));
 
   initFilePicker();
 
