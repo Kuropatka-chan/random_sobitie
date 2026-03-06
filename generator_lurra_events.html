@@ -5,531 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Генератор событий Западной Лурры</title>
   <style>
-    :root{
-      --bg:#11151b;
-      --panel:#1a212b;
-      --panel-2:#212a36;
-      --text:#e9eef5;
-      --muted:#aeb8c5;
-      --accent:#9fc2ff;
-      --accent-2:#7fe0c3;
-      --border:#344153;
-      --danger:#ffb4b4;
-      --shadow:0 12px 30px rgba(0,0,0,.28);
-      --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-      background:linear-gradient(180deg,#0f1318,#141a22 35%,#10161e);
-      color:var(--text);
-    }
-    .wrap{
-      max-width:1180px;
-      margin:0 auto;
-      padding:24px;
-    }
-    h1{
-      margin:0 0 8px;
-      font-size:clamp(28px,4vw,42px);
-      line-height:1.05;
-      letter-spacing:.2px;
-    }
-    .sub{
-      margin:0 0 24px;
-      color:var(--muted);
-      max-width:900px;
-      line-height:1.5;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:18px;
-    }
-    .card{
-      background:linear-gradient(180deg,var(--panel),var(--panel-2));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:18px;
-    }
-    .card h2{
-      margin:0 0 14px;
-      font-size:20px;
-    }
-    .controls{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:12px;
-    }
-    .controls .full{grid-column:1/-1}
-    label{
-      display:block;
-      font-size:13px;
-      color:var(--muted);
-      margin:0 0 6px;
-    }
-    select, button, textarea, input{
-      width:100%;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:#111821;
-      color:var(--text);
-      padding:12px 14px;
-      font-size:15px;
-      outline:none;
-    }
-    select:focus, button:focus, textarea:focus, input:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 3px rgba(159,194,255,.16);
-    }
-    button{
-      cursor:pointer;
-      background:linear-gradient(180deg,#283648,#202c3a);
-      transition:.15s transform ease,.15s border-color ease,.15s background ease;
-      font-weight:600;
-    }
-    button:hover{
-      transform:translateY(-1px);
-      border-color:#4b617e;
-      background:linear-gradient(180deg,#314258,#273547);
-    }
-    .btn-row{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:10px;
-      margin-top:8px;
-    }
-    .btn-accent{
-      background:linear-gradient(180deg,#385487,#2b4269);
-      border-color:#4f6da0;
-    }
-    .btn-accent:hover{
-      background:linear-gradient(180deg,#44639c,#304c7a);
-    }
-    .result{
-      min-height:148px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-    .event-box{
-      background:#0f151c;
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:18px;
-      min-height:92px;
-      font-size:22px;
-      line-height:1.35;
-    }
-    .meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      border:1px solid var(--border);
-      color:var(--muted);
-      background:#111821;
-      padding:8px 10px;
-      border-radius:999px;
-      font-size:12px;
-    }
-    .mini{
-      margin-top:14px;
-      font-size:13px;
-      color:var(--muted);
-      line-height:1.5;
-    }
-    .listbox{
-      max-height:420px;
-      overflow:auto;
-      border:1px solid var(--border);
-      border-radius:14px;
-      background:#10171f;
-      padding:12px;
-    }
-    .listbox h3{
-      margin:8px 0 8px;
-      font-size:15px;
-      color:var(--accent-2);
-    }
-    .listbox ul{
-      margin:0 0 14px 18px;
-      padding:0;
-    }
-    .listbox li{
-      margin:0 0 5px;
-      color:#d8e1ec;
-      font-size:14px;
-    }
-    .footer{
-      margin-top:18px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.5;
-    }
-    @media (max-width: 920px){
-      .grid{grid-template-columns:1fr}
-      .controls{grid-template-columns:1fr}
-      .btn-row{grid-template-columns:1fr}
-    }
+    :root{--bg:#11151b;--panel:#1a212b;--panel-2:#212a36;--text:#e9eef5;--muted:#aeb8c5;--accent:#9fc2ff;--accent-2:#7fe0c3;--border:#344153;--shadow:0 12px 30px rgba(0,0,0,.28);--radius:16px}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0f1318,#141a22 35%,#10161e);color:var(--text)}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px} h1{margin:0 0 8px;font-size:clamp(28px,4vw,42px);line-height:1.05}
+    .sub{margin:0 0 24px;color:var(--muted);max-width:900px;line-height:1.5}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}
+    .card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.controls .full{grid-column:1/-1} label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    select,button,input{width:100%;border-radius:12px;border:1px solid var(--border);background:#111821;color:var(--text);padding:12px 14px;font-size:15px}
+    .btn-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.btn-accent{background:linear-gradient(180deg,#385487,#2b4269)}
+    .event-box{background:#0f151c;border:1px solid var(--border);border-radius:14px;padding:18px;min-height:92px;font-size:22px;line-height:1.35}
+    .meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.tag{border:1px solid var(--border);color:var(--muted);background:#111821;padding:8px 10px;border-radius:999px;font-size:12px}
+    .listbox{max-height:540px;overflow:auto;border:1px solid var(--border);border-radius:14px;background:#10171f;padding:12px}.listbox h3{margin:8px 0;color:var(--accent-2)}
+    .listbox li{font-size:14px;color:#d8e1ec;margin-bottom:5px}.mini{margin-top:12px;font-size:13px;color:var(--muted)}
+    @media (max-width:920px){.grid{grid-template-columns:1fr}.controls,.btn-row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Генератор событий Западной Лурры</h1>
-    <p class="sub">
-      Одностраничный HTML‑генератор событий по схеме <b>«лицо + действие + объект»</b>.
-      Учитывает род и число лица: например, <i>банда разграбила деревню</i>,
-      <i>культ разграбил деревню</i>, <i>Братство объявило ересью рынок</i>.
-    </p>
+    <p class="sub">Генератор учитывает род/число лица, согласует глаголы и бережно фильтрует совместимые пары «действие + объект», чтобы исключать логически абсурдные комбинации.</p>
 
     <div class="grid">
       <section class="card">
-        <h2>Настройка события</h2>
-
         <div class="controls">
-          <div class="full">
-            <label for="dataset">Набор категорий</label>
-            <select id="dataset"></select>
-          </div>
-
-          <div>
-            <label for="face">Лицо</label>
-            <select id="face"></select>
-          </div>
-
-          <div>
-            <label for="action">Действие</label>
-            <select id="action"></select>
-          </div>
-
-          <div class="full">
-            <label for="object">Объект</label>
-            <select id="object"></select>
-          </div>
-
+          <div class="full"><label for="dataset">Набор категорий</label><select id="dataset"></select></div>
+          <div><label for="face">Лицо</label><select id="face"></select></div>
+          <div><label for="action">Действие</label><select id="action"></select></div>
+          <div class="full"><label for="object">Объект (только совместимые по смыслу)</label><select id="object"></select></div>
+          <div class="full"><label for="namesFile">JSON с именами для подстановки [имя]</label><input id="namesFile" type="file" accept=".json,application/json"></div>
+          <div class="full mini" id="namesStatus">Имена пока не загружены. Используется резервный список.</div>
           <div class="full btn-row">
             <button id="randomAll" class="btn-accent">Сгенерировать случайное событие</button>
             <button id="randomParts">Перемешать выбранный набор</button>
             <button id="copyEvent">Скопировать событие</button>
           </div>
         </div>
-
-        <div class="result" style="margin-top:18px;">
-          <div class="meta">
-            <span class="tag" id="tagDataset">Набор: —</span>
-            <span class="tag" id="tagGender">Род/число: —</span>
-            <span class="tag" id="tagAction">Форма глагола: —</span>
-          </div>
-          <div class="event-box" id="eventBox">Выберите набор или нажмите «Сгенерировать случайное событие».</div>
+        <div class="meta">
+          <span class="tag" id="tagDataset">Набор: —</span>
+          <span class="tag" id="tagGender">Род/число: —</span>
+          <span class="tag" id="tagAction">Форма глагола: —</span>
+          <span class="tag" id="tagObjects">Семантика: —</span>
         </div>
-
-        <div class="mini">
-          Поддерживаются наборы: базовые угрозы, политические, экологические/мутационные и религиозные события.
-          Интерфейс допускает как ручной выбор, так и случайную генерацию в рамках выбранного набора.
-        </div>
+        <div class="event-box" id="eventBox">Нажмите «Сгенерировать случайное событие».</div>
       </section>
 
       <aside class="card">
-        <h2>Содержимое наборов</h2>
+        <h2>Содержимое набора</h2>
         <div class="listbox" id="catalog"></div>
-        <div class="footer">
-          Логика согласования строится по тегам рода/числа у «лица». Для действий задаются формы:
-          мужская, женская, средняя и множественная. За счёт этого получаются корректные фразы:
-          <i>отряд осадил</i>, <i>банда осадила</i>, <i>братство осадило</i>, <i>сборщики осадили</i>.
-        </div>
       </aside>
     </div>
   </div>
 
-<script>
-const datasets = {
-  basic: {
-    title: "Базовые угрозы",
-    faces: [
-      { text:"Стая варгов", gender:"f" },
-      { text:"Банда раубриттеров", gender:"f" },
-      { text:"Небольшой культ", gender:"m" },
-      { text:"Отряд дезертиров", gender:"m" },
-      { text:"Колония земляных сколопендр", gender:"f" },
-      { text:"Черный отряд", gender:"m" },
-      { text:"Криминальный синдикат", gender:"m" },
-      { text:"Грифон", gender:"m" }
-    ],
-    actions: [
-      forms("напасть на", "напал на", "напала на", "напало на", "напали на"),
-      forms("разграбить", "разграбил", "разграбила", "разграбило", "разграбили"),
-      forms("осадить", "осадил", "осадила", "осадило", "осадили"),
-      forms("устроить засаду у", "устроил засаду у", "устроила засаду у", "устроило засаду у", "устроили засаду у"),
-      forms("похитить людей из", "похитил людей из", "похитила людей из", "похитило людей из", "похитили людей из"),
-      forms("уничтожить караван у", "уничтожил караван у", "уничтожила караван у", "уничтожило караван у", "уничтожили караван у"),
-      forms("устроить резню в", "устроил резню в", "устроила резню в", "устроило резню в", "устроили резню в"),
-      forms("попытаться захватить", "попытался захватить", "попыталась захватить", "попыталось захватить", "попытались захватить"),
-      forms("скрыться после налета на", "скрылся после налета на", "скрылась после налета на", "скрылось после налета на", "скрылись после налета на"),
-      forms("терроризировать", "терроризирует", "терроризирует", "терроризирует", "терроризируют"),
-      forms("устроить тайное собрание в", "устроил тайное собрание в", "устроила тайное собрание в", "устроило тайное собрание в", "устроили тайное собрание в"),
-      forms("распространять слухи в", "распространяет слухи в", "распространяет слухи в", "распространяет слухи в", "распространяют слухи в"),
-      forms("установить контроль над", "установил контроль над", "установила контроль над", "установило контроль над", "установили контроль над"),
-      forms("проводить тайные ритуалы возле", "проводит тайные ритуалы возле", "проводит тайные ритуалы возле", "проводит тайные ритуалы возле", "проводят тайные ритуалы возле"),
-      forms("выследить добычу у", "выследил добычу у", "выследила добычу у", "выследило добычу у", "выследили добычу у"),
-      forms("разорить фермы возле", "разорил фермы возле", "разорила фермы возле", "разорило фермы возле", "разорили фермы возле"),
-      forms("напасть ночью на", "напал ночью на", "напала ночью на", "напало ночью на", "напали ночью на"),
-      forms("разрушить сторожевой пост у", "разрушил сторожевой пост у", "разрушила сторожевой пост у", "разрушило сторожевой пост у", "разрушили сторожевой пост у"),
-      forms("перекрыть дорогу к", "перекрыл дорогу к", "перекрыла дорогу к", "перекрыло дорогу к", "перекрыли дорогу к"),
-      forms("охотиться возле", "охотится возле", "охотится возле", "охотится возле", "охотятся возле")
-    ],
-    objects: [
-      "деревню","караван","торговый тракт","лесную дорогу","пограничный пост","фермерское поселение",
-      "мельницу","малый город","речной порт","мост","склад провизии","шахту вилладиума",
-      "церковный приход","дорогую усадьбу","рыбацкую деревню","городские ворота","постоялый двор",
-      "лесную вырубку","склад фильтров","солевой склад"
-    ]
-  },
-
-  political: {
-    title: "Политические события",
-    faces: [
-      { text:"Барон [имя]", gender:"m" },
-      { text:"Отряд вассалов [имя]", gender:"m" },
-      { text:"Городской совет", gender:"m" },
-      { text:"Союз гильдий", gender:"m" },
-      { text:"Дружина графа [имя]", gender:"f" },
-      { text:"Стража свободного города", gender:"f" },
-      { text:"Сборщики налогов [имя]", gender:"p" },
-      { text:"Посланники церкви", gender:"p" }
-    ],
-    actions: [
-      forms("ввести новые пошлины на", "ввел новые пошлины на", "ввела новые пошлины на", "ввело новые пошлины на", "ввели новые пошлины на"),
-      forms("конфисковать имущество у", "конфисковал имущество у", "конфисковала имущество у", "конфисковало имущество у", "конфисковали имущество у"),
-      forms("отправить вооруженный патруль к", "отправил вооруженный патруль к", "отправила вооруженный патруль к", "отправило вооруженный патруль к", "отправили вооруженный патруль к"),
-      forms("провести расследование в", "провел расследование в", "провела расследование в", "провело расследование в", "провели расследование в"),
-      forms("запретить торговлю возле", "запретил торговлю возле", "запретила торговлю возле", "запретило торговлю возле", "запретили торговлю возле"),
-      forms("потребовать дань с", "потребовал дань с", "потребовала дань с", "потребовало дань с", "потребовали дань с"),
-      forms("начать строительство укреплений у", "начал строительство укреплений у", "начала строительство укреплений у", "начало строительство укреплений у", "начали строительство укреплений у"),
-      forms("объявить розыск в", "объявил розыск в", "объявила розыск в", "объявило розыск в", "объявили розыск в"),
-      forms("усилить охрану", "усилил охрану", "усилила охрану", "усилило охрану", "усилили охрану"),
-      forms("попытаться установить власть над", "попытался установить власть над", "попыталась установить власть над", "попыталось установить власть над", "попытались установить власть над")
-    ],
-    objects: [
-      "рынок","торговый квартал","деревни провинции","горный перевал","приграничные земли",
-      "портовую гавань","караванный путь","лесные угодья","ремесленные мастерские","зерновые склады"
-    ]
-  },
-
-  ecological: {
-    title: "Экологические и мутационные события",
-    faces: [
-      { text:"Стая мутировавших животных", gender:"f" },
-      { text:"Зараженное болото", gender:"n" },
-      { text:"Скопление токсичного тумана", gender:"n" },
-      { text:"Поток зараженной воды", gender:"m" },
-      { text:"Опасные споры грибов", gender:"p" },
-      { text:"Колония агрессивных крыс", gender:"f" },
-      { text:"Рой мутировавших насекомых", gender:"m" },
-      { text:"Старый зараженный колодец", gender:"m" }
-    ],
-    actions: [
-      forms("распространиться на", "распространился на", "распространилась на", "распространилось на", "распространились на"),
-      forms("заразить", "заразил", "заразила", "заразило", "заразили"),
-      forms("уничтожить урожай возле", "уничтожил урожай возле", "уничтожила урожай возле", "уничтожило урожай возле", "уничтожили урожай возле"),
-      forms("сделать непригодной воду в", "сделал непригодной воду в", "сделала непригодной воду в", "сделало непригодной воду в", "сделали непригодной воду в"),
-      forms("заставить жителей покинуть", "заставил жителей покинуть", "заставила жителей покинуть", "заставило жителей покинуть", "заставили жителей покинуть"),
-      forms("привести к гибели скота возле", "привел к гибели скота возле", "привела к гибели скота возле", "привело к гибели скота возле", "привели к гибели скота возле"),
-      forms("поглотить дорогу к", "поглотил дорогу к", "поглотила дорогу к", "поглотило дорогу к", "поглотили дорогу к"),
-      forms("заполнить туманом", "заполнил туманом", "заполнила туманом", "заполнило туманом", "заполнили туманом"),
-      forms("загрязнить", "загрязнил", "загрязнила", "загрязнило", "загрязнили"),
-      forms("превратить в опасную зону", "превратил в опасную зону", "превратила в опасную зону", "превратило в опасную зону", "превратили в опасную зону")
-    ],
-    objects: [
-      "поля провинции","фермерские поселения","лесные тропы","речные притоки","охотничьи угодья",
-      "пригородные земли","сельские колодцы","рыбацкие места","скотные пастбища","лесные лагеря"
-    ]
-  },
-
-  religious: {
-    title: "Религиозные события",
-    faces: [
-      { text:"Братство Чистоты", gender:"n" },
-      { text:"Братство Возрождения", gender:"n" },
-      { text:"Священник [имя]", gender:"m" },
-      { text:"Странствующие проповедники", gender:"p" },
-      { text:"Монастырская братия", gender:"f" },
-      { text:"Церковный суд", gender:"m" },
-      { text:"Орден храмовой стражи", gender:"m" },
-      { text:"Местный приход", gender:"m" }
-    ],
-    actions: [
-      forms("объявить ересью", "объявил ересью", "объявила ересью", "объявило ересью", "объявили ересью"),
-      forms("провести расследование в", "провел расследование в", "провела расследование в", "провело расследование в", "провели расследование в"),
-      forms("организовать паломничество к", "организовал паломничество к", "организовала паломничество к", "организовало паломничество к", "организовали паломничество к"),
-      forms("собрать пожертвования в", "собрал пожертвования в", "собрала пожертвования в", "собрало пожертвования в", "собрали пожертвования в"),
-      forms("провести суд над", "провел суд над", "провела суд над", "провело суд над", "провели суд над"),
-      forms("закрыть доступ к", "закрыл доступ к", "закрыла доступ к", "закрыло доступ к", "закрыли доступ к"),
-      forms("потребовать очистительный обряд в", "потребовал очистительный обряд в", "потребовала очистительный обряд в", "потребовало очистительный обряд в", "потребовали очистительный обряд в"),
-      forms("обвинить жителей", "обвинил жителей", "обвинила жителей", "обвинило жителей", "обвинили жителей"),
-      forms("отправить миссионеров в", "отправил миссионеров в", "отправила миссионеров в", "отправило миссионеров в", "отправили миссионеров в"),
-      forms("освятить", "освятил", "освятила", "освятило", "освятили")
-    ],
-    objects: [
-      "деревню","городской квартал","рынок","старое святилище","заброшенный храм",
-      "монастырские земли","местный приход","кладбище","лесную часовню","пригородные поселения"
-    ]
-  }
-};
-
-function forms(label, m, f, n, p){
-  return { label, forms: { m, f, n, p } };
-}
-
-const datasetSelect = document.getElementById('dataset');
-const faceSelect = document.getElementById('face');
-const actionSelect = document.getElementById('action');
-const objectSelect = document.getElementById('object');
-const eventBox = document.getElementById('eventBox');
-const tagDataset = document.getElementById('tagDataset');
-const tagGender = document.getElementById('tagGender');
-const tagAction = document.getElementById('tagAction');
-const catalog = document.getElementById('catalog');
-
-const genderLabels = {
-  m: "мужской род",
-  f: "женский род",
-  n: "средний род",
-  p: "множественное число"
-};
-
-function init(){
-  for(const [key, ds] of Object.entries(datasets)){
-    const opt = document.createElement('option');
-    opt.value = key;
-    opt.textContent = ds.title;
-    datasetSelect.appendChild(opt);
-  }
-
-  datasetSelect.addEventListener('change', () => {
-    populateSelectors(datasetSelect.value);
-    renderCatalog(datasetSelect.value);
-    generateFromCurrent();
-  });
-
-  faceSelect.addEventListener('change', generateFromCurrent);
-  actionSelect.addEventListener('change', generateFromCurrent);
-  objectSelect.addEventListener('change', generateFromCurrent);
-
-  document.getElementById('randomAll').addEventListener('click', randomizeAll);
-  document.getElementById('randomParts').addEventListener('click', randomizeParts);
-  document.getElementById('copyEvent').addEventListener('click', copyEvent);
-
-  datasetSelect.value = 'basic';
-  populateSelectors('basic');
-  renderCatalog('basic');
-  randomizeAll();
-}
-
-function populateSelectors(datasetKey){
-  const ds = datasets[datasetKey];
-  fillSelect(faceSelect, ds.faces.map((x, i) => ({ value:i, text:x.text })));
-  fillSelect(actionSelect, ds.actions.map((x, i) => ({ value:i, text:x.label })));
-  fillSelect(objectSelect, ds.objects.map((x, i) => ({ value:i, text:x })));
-}
-
-function fillSelect(selectEl, items){
-  selectEl.innerHTML = "";
-  items.forEach(item => {
-    const opt = document.createElement('option');
-    opt.value = item.value;
-    opt.textContent = item.text;
-    selectEl.appendChild(opt);
-  });
-}
-
-function pickRandomIndex(arr){
-  return Math.floor(Math.random() * arr.length);
-}
-
-function randomizeAll(){
-  const ds = datasets[datasetSelect.value];
-  faceSelect.value = pickRandomIndex(ds.faces);
-  actionSelect.value = pickRandomIndex(ds.actions);
-  objectSelect.value = pickRandomIndex(ds.objects);
-  generateFromCurrent();
-}
-
-function randomizeParts(){
-  const ds = datasets[datasetSelect.value];
-  if(Math.random() > 0.35) faceSelect.value = pickRandomIndex(ds.faces);
-  if(Math.random() > 0.15) actionSelect.value = pickRandomIndex(ds.actions);
-  if(Math.random() > 0.10) objectSelect.value = pickRandomIndex(ds.objects);
-  generateFromCurrent();
-}
-
-function getActionForm(action, gender){
-  return action.forms[gender] || action.forms.m;
-}
-
-function generateFromCurrent(){
-  const ds = datasets[datasetSelect.value];
-  const face = ds.faces[Number(faceSelect.value)];
-  const action = ds.actions[Number(actionSelect.value)];
-  const object = ds.objects[Number(objectSelect.value)];
-  const actionForm = getActionForm(action, face.gender);
-  const eventText = `${face.text} ${actionForm} ${object}.`;
-
-  eventBox.textContent = eventText;
-  tagDataset.textContent = `Набор: ${ds.title}`;
-  tagGender.textContent = `Род/число: ${genderLabels[face.gender]}`;
-  tagAction.textContent = `Форма глагола: ${actionForm}`;
-}
-
-async function copyEvent(){
-  const text = eventBox.textContent;
-  try{
-    await navigator.clipboard.writeText(text);
-    const old = eventBox.textContent;
-    eventBox.textContent = old + " ✓";
-    setTimeout(() => eventBox.textContent = old, 900);
-  }catch(e){
-    alert("Не удалось скопировать событие в буфер обмена.");
-  }
-}
-
-function renderCatalog(datasetKey){
-  const ds = datasets[datasetKey];
-  catalog.innerHTML = "";
-
-  const block1 = makeListBlock("Лица", ds.faces.map(x => `${x.text} — ${genderLabels[x.gender]}`));
-  const block2 = makeListBlock("Действия", ds.actions.map(x => x.label));
-  const block3 = makeListBlock("Объекты", ds.objects);
-
-  catalog.appendChild(block1);
-  catalog.appendChild(block2);
-  catalog.appendChild(block3);
-}
-
-function makeListBlock(title, items){
-  const wrap = document.createElement('div');
-  const h = document.createElement('h3');
-  h.textContent = title;
-  const ul = document.createElement('ul');
-
-  items.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    ul.appendChild(li);
-  });
-
-  wrap.appendChild(h);
-  wrap.appendChild(ul);
-  return wrap;
-}
-
-init();
-</script>
+  <script type="module" src="src/events/main.js"></script>
 </body>
 </html>
