@@ -83,8 +83,11 @@ function getActionForm(action, gender){
   return action.forms[gender] || action.forms.m;
 }
 
-function getReactionForm(action, gender){
-  return action.reactionForms?.[gender] || action.reactionForms?.m;
+function getReactionForm(action, face){
+  const gender = face.gender;
+  const useNonAgentForm = face.canReverseDirectly === false && action.nonAgentReactionForms;
+  const forms = useNonAgentForm ? action.nonAgentReactionForms : action.reactionForms;
+  return forms?.[gender] || forms?.m;
 }
 
 function rollD20(){
@@ -104,7 +107,7 @@ function resolveDecision(decisionKey){
   }
 
   const renderedFace = injectName(face.text, state.namesPool, face.nameCase);
-  const reactionForm = getReactionForm(action, face.gender);
+  const reactionForm = getReactionForm(action, face);
   const roll = rollD20();
   const modifiedRoll = Math.min(20, Math.max(1, roll + decision.modifier));
   const isWin = modifiedRoll >= 11;
