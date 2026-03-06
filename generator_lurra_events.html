@@ -13,6 +13,8 @@
     .controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.controls .full{grid-column:1/-1} label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
     select,button,input{width:100%;border-radius:12px;border:1px solid var(--border);background:#111821;color:var(--text);padding:12px 14px;font-size:15px}
     .btn-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.btn-accent{background:linear-gradient(180deg,#385487,#2b4269)}
+    .decision-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+    .result-box{margin-top:10px;background:#111821;border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.4}
     .event-box{background:#0f151c;border:1px solid var(--border);border-radius:14px;padding:18px;min-height:92px;font-size:22px;line-height:1.35}
     .meta{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.tag{border:1px solid var(--border);color:var(--muted);background:#111821;padding:8px 10px;border-radius:999px;font-size:12px}
     .listbox{max-height:540px;overflow:auto;border:1px solid var(--border);border-radius:14px;background:#10171f;padding:12px}.listbox h3{margin:8px 0;color:var(--accent-2)}
@@ -47,6 +49,11 @@
           <span class="tag" id="tagObjects">Семантика: —</span>
         </div>
         <div class="event-box" id="eventBox">Нажмите «Сгенерировать случайное событие».</div>
+        <div class="decision-row">
+          <button id="interveneBtn" class="btn-accent">Вмешаться</button>
+          <button id="ignoreBtn">Проигнорировать</button>
+        </div>
+        <div class="result-box" id="resultBox">После выбора действия здесь появится исход.</div>
       </section>
 
       <aside class="card">
